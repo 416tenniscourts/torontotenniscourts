@@ -275,7 +275,7 @@
           <select id="f-indoor" onchange="applyFilters()">
             <option value="">Any</option>
             <option value="outdoor">Outdoor Only</option>
-            <option value="indoor">Indoor / Domed</option>
+            <option value="indoor">❄️ Winter Play</option>
           </select>
         </div>
         <div class="filter-group">
@@ -309,18 +309,23 @@
   var SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTm-gXqDDRT7juHkXVn0_xJmb5QL-Z2oOawVAVxObTeh8lwIMMO1ObU7D-ewVQnxW9e_A7FZXRo1MVf/pub?output=csv';
 
   var MAP_STYLE = [
-    { elementType: 'geometry', stylers: [{ color: '#f0ebe3' }] },
-    { elementType: 'labels.text.fill', stylers: [{ color: '#5c5c5c' }] },
-    { elementType: 'labels.text.stroke', stylers: [{ color: '#f0ebe3' }] },
-    { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
-    { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#e0d8c8' }] },
-    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#a8c8e8' }] },
-    { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#4a7fa5' }] },
-    { featureType: 'park', elementType: 'geometry', stylers: [{ color: '#d4ecd4' }] },
-    { featureType: 'landscape.natural', elementType: 'geometry', stylers: [{ color: '#f0ebe3' }] },
+    { elementType: 'geometry', stylers: [{ color: '#e8e0d5' }] },
+    { elementType: 'labels.text.fill', stylers: [{ color: '#4a4a4a' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f0e8' }] },
+    { featureType: 'road', elementType: 'geometry.fill', stylers: [{ color: '#ffffff' }] },
+    { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#c8bfb0' }, { weight: 1 }] },
+    { featureType: 'road.highway', elementType: 'geometry.fill', stylers: [{ color: '#f5d98b' }] },
+    { featureType: 'road.highway', elementType: 'geometry.stroke', stylers: [{ color: '#e0c060' }, { weight: 1 }] },
+    { featureType: 'road.arterial', elementType: 'geometry.fill', stylers: [{ color: '#ffffff' }] },
+    { featureType: 'water', elementType: 'geometry.fill', stylers: [{ color: '#7ab8d4' }] },
+    { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#3a6e8a' }] },
+    { featureType: 'park', elementType: 'geometry.fill', stylers: [{ color: '#c5dfc5' }] },
+    { featureType: 'landscape.natural', elementType: 'geometry.fill', stylers: [{ color: '#e8e0d5' }] },
+    { featureType: 'landscape.man_made', elementType: 'geometry.fill', stylers: [{ color: '#ede7dd' }] },
     { featureType: 'transit', stylers: [{ visibility: 'off' }] },
     { featureType: 'poi', stylers: [{ visibility: 'off' }] },
-    { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#d4ecd4' }, { visibility: 'on' }] },
+    { featureType: 'poi.park', elementType: 'geometry.fill', stylers: [{ color: '#c5dfc5' }, { visibility: 'on' }] },
+    { featureType: 'administrative.neighborhood', elementType: 'labels.text.fill', stylers: [{ color: '#888888' }] },
   ];
 
   var SATELLITE_STYLE = [
@@ -467,7 +472,7 @@
     else if (lights) t += '<span class="tag tag-lights">💡 Lights</span>';
     if ((c['Pickleball Lines'] || '').toLowerCase() === 'yes') t += '<span class="tag tag-pickle">🏓 Pickleball</span>';
     var io = (c['Indoor/Outdoor'] || '').toLowerCase();
-    if (io.indexOf('indoor') !== -1) t += '<span class="tag tag-indoor">🏠 Domed</span>';
+    if (io.indexOf('indoor') !== -1) t += '<span class="tag tag-indoor">❄️ Winter Play</span>';
     var access = (c['Public/Private'] || '').toLowerCase();
     if (access === 'private') t += '<span class="tag tag-private">Private</span>';
     else if (access) t += '<span class="tag tag-public">Public</span>';
