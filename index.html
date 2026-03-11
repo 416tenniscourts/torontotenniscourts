@@ -187,8 +187,10 @@
       flex-direction: column; gap: 16px; z-index: 999; transition: opacity 0.5s ease;
     }
     #loading-overlay.hidden { opacity: 0; pointer-events: none; }
-    .loading-logo { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: white; letter-spacing: 0.06em; }
-    .loading-logo span { color: #52b788; }
+    .loading-logo { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: white; letter-spacing: 0.06em; line-height: 1; text-align: center; }
+    .loading-logo .line1 { display: block; }
+    .loading-logo .line1 span { color: #52b788; }
+    .loading-logo .line2 { display: block; color: white; font-size: 2.4rem; }
     .loading-bar { width: 200px; height: 3px; background: #333; border-radius: 3px; overflow: hidden; }
     .loading-bar-fill { height: 100%; background: #40916c; border-radius: 3px; animation: loadBar 1.5s ease forwards; }
     @keyframes loadBar { from { width: 0; } to { width: 100%; } }
@@ -207,7 +209,10 @@
 <body>
 
 <div id="loading-overlay">
-  <div class="loading-logo">Toronto<span>Tennis</span></div>
+  <div class="loading-logo">
+    <span class="line1">Toronto <span>Tennis</span></span>
+    <span class="line2">Courts</span>
+  </div>
   <div class="loading-bar"><div class="loading-bar-fill"></div></div>
   <div class="loading-sub">Loading courts…</div>
 </div>
@@ -309,10 +314,19 @@
     { elementType: 'labels.text.stroke', stylers: [{ color: '#f0ebe3' }] },
     { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
     { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#e0d8c8' }] },
-    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#b8d4e8' }] },
-    { featureType: 'park', elementType: 'geometry', stylers: [{ color: '#c8e6c9' }] },
+    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#a8c8e8' }] },
+    { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#4a7fa5' }] },
+    { featureType: 'park', elementType: 'geometry', stylers: [{ color: '#d4ecd4' }] },
+    { featureType: 'landscape.natural', elementType: 'geometry', stylers: [{ color: '#f0ebe3' }] },
     { featureType: 'transit', stylers: [{ visibility: 'off' }] },
-    { featureType: 'poi', stylers: [{ visibility: 'off' }] }
+    { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+    { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#d4ecd4' }, { visibility: 'on' }] },
+  ];
+
+  var SATELLITE_STYLE = [
+    { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+    { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+    { featureType: 'business', stylers: [{ visibility: 'off' }] },
   ];
 
   var map, markers = [], allCourts = [], filteredCourts = [];
@@ -335,7 +349,7 @@
     satelliteOn = !satelliteOn;
     if (satelliteOn) {
       map.setMapTypeId('hybrid');
-      map.setOptions({ styles: null });
+      map.setOptions({ styles: SATELLITE_STYLE });
     } else {
       map.setMapTypeId('roadmap');
       map.setOptions({ styles: MAP_STYLE });
