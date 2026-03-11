@@ -56,9 +56,28 @@
       line-height: 1;
     }
 
-    .logo span { color: var(--clay); }
+    .logo span { color: #52b788; }
 
-    .court-count {
+    .btn-satellite {
+      padding: 6px 14px;
+      border: 1.5px solid var(--green2);
+      border-radius: 20px;
+      background: transparent;
+      color: var(--lime);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-satellite:hover,
+    .btn-satellite.active {
+      background: var(--green2);
+      color: var(--white);
+    }
       font-family: 'DM Mono', monospace;
       font-size: 0.72rem;
       color: var(--lime);
@@ -476,7 +495,10 @@
 <!-- Header -->
 <header>
   <div class="logo">Toronto<span>Tennis</span> Courts</div>
-  <div class="court-count" id="header-count">— courts</div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button class="btn-satellite" id="btn-satellite" onclick="toggleSatellite()">🛰 Satellite</button>
+    <div class="court-count" id="header-count">— courts</div>
+  </div>
 </header>
 
 <div class="app-body">
@@ -719,7 +741,7 @@
       title: court['Name'],
       icon: {
         path: google.maps.SymbolPath.CIRCLE,
-        fillColor: isPrivate ? '#e07a5f' : '#2d6a4f',
+        fillColor: isPrivate ? '#95d5b2' : '#2d6a4f',
         fillOpacity: 1,
         strokeColor: '#ffffff',
         strokeWeight: 2,
@@ -796,7 +818,16 @@
       }
       if (lights  && (c['Lights/No Lights'] || '').toLowerCase() !== lights)  return false;
       if (pickle  && (c['Pickleball Lines'] || '').toLowerCase() !== pickle)   return false;
-      if (indoor  && (c['Indoor/Outdoor']   || '').toLowerCase() !== indoor)   return false;
+      if (indoor) {
+        const val = (c['Indoor/Outdoor'] || '').toLowerCase();
+        if (indoor === 'indoor') {
+          // Show courts that are Indoor-only OR Outdoor/Indoor (domed)
+          if (!val.includes('indoor')) return false;
+        } else if (indoor === 'outdoor') {
+          // Show courts that are Outdoor-only (not domed)
+          if (val !== 'outdoor') return false;
+        }
+      }
       if (access  && (c['Public/Private']   || '').toLowerCase() !== access)   return false;
       return true;
     });
@@ -809,6 +840,18 @@
       .forEach(id => document.getElementById(id).value = '');
     filteredCourts = allCourts;
     renderAll();
+  }
+
+  // ── SATELLITE TOGGLE ────────────────────────────────────────
+  let satelliteOn = false;
+  function toggleSatellite() {
+    satelliteOn = !satelliteOn;
+    map.setMapTypeId(satelliteOn ? 'hybrid' : 'roadmap');
+    if (!satelliteOn) map.setOptions({ styles: mapStyle });
+    else map.setOptions({ styles: [] });
+    const btn = document.getElementById('btn-satellite');
+    btn.classList.toggle('active', satelliteOn);
+    btn.textContent = satelliteOn ? '🗺 Street View' : '🛰 Satellite';
   }
 
   // ── SEARCH ADDRESS ──────────────────────────────────────────
