@@ -616,6 +616,19 @@
   let activeCard = null, activeInfoWindow = null;
   let sidebarOpen = false;
 
+  // ── MAP STYLE (defined early so initMap can use it) ──────────
+  const mapStyle = [
+    { elementType: 'geometry', stylers: [{ color: '#f0ebe3' }] },
+    { elementType: 'labels.text.fill', stylers: [{ color: '#5c5c5c' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#f0ebe3' }] },
+    { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
+    { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#e0d8c8' }] },
+    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#b8d4e8' }] },
+    { featureType: 'park', elementType: 'geometry', stylers: [{ color: '#c8e6c9' }] },
+    { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+    { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+  ];
+
   // ── LOAD GOOGLE MAPS ────────────────────────────────────────
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -935,18 +948,7 @@
     renderAll();
   }
 
-  // ── MAP STYLE ────────────────────────────────────────────────
-  const mapStyle = [
-    { elementType: 'geometry', stylers: [{ color: '#f0ebe3' }] },
-    { elementType: 'labels.text.fill', stylers: [{ color: '#5c5c5c' }] },
-    { elementType: 'labels.text.stroke', stylers: [{ color: '#f0ebe3' }] },
-    { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
-    { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#e0d8c8' }] },
-    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#b8d4e8' }] },
-    { featureType: 'park', elementType: 'geometry', stylers: [{ color: '#c8e6c9' }] },
-    { featureType: 'transit', stylers: [{ visibility: 'off' }] },
-    { featureType: 'poi', stylers: [{ visibility: 'off' }] },
-  ];
+
 </script>
 
 <!-- Load Google Maps -->
